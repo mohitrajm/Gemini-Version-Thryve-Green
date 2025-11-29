@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thryve Green | Waste to Clean Energy</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            green: '#2F855A',    /* Deep Forest Green - Matches Logo */
+                            light: '#48BB78',    /* Leaf Green */
+                            dark: '#1C4532',     /* Darker Green */
+                            earth: '#8D6E63',    /* Warm Earth - Matches 'Be the Shift' */
+                            orange: '#ED8936',   /* Energy/Fire */
+                            cream: '#F9F7F0',    /* Recycled Paper feel */
+                            gray: '#4A5568'      /* Industrial Gray */
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['Montserrat', 'sans-serif'],
+                        body: ['Open Sans', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px rgba(0, 0, 0, 0.05)',
+                        'card': '0 10px 30px -5px rgba(0, 0, 0, 0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F9F7F0; /* Cream background */
+            color: #2D3748;
+        }
+
+        /* View Transition Utilities */
+        .page-view {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+        .page-view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Parallax */
+        .hero-bg {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=2070&auto=format&fit=crop');
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        /* Farmer Page Header */
+        .farmer-bg {
+            background-image: linear-gradient(rgba(47, 133, 90, 0.9), rgba(28, 69, 50, 0.9)), url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Business Page Header */
+        .business-bg {
+            background-image: linear-gradient(rgba(45, 55, 72, 0.9), rgba(26, 32, 44, 0.9)), url('https://images.unsplash.com/photo-1565691081708-4122d2f73318?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Custom Bullet Points */
+        ul.check-list li {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 0.75rem;
+        }
+        ul.check-list li::before {
+            content: "";
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%232F855A' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            position: absolute;
+            left: 0;
+            top: 2px;
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+        
+        ul.check-list-light li::before {
+             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2348BB78' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+        }
+
+        /* FLIP CARD CSS */
+        .flip-card {
+            background-color: transparent;
+            width: 100%;
+            height: 350px;
+            perspective: 1000px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .flip-card-front {
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .flip-card-back {
+            background-color: #2F855A; /* Brand Green */
+            color: white;
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body class="font-body leading-relaxed antialiased flex flex-col min-h-screen">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 shadow-sm transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 py-2 flex justify-between items-center">
+            <!-- LOGO SECTION -->
+            <div class="flex items-center cursor-pointer" onclick="router('home')">
+                <img src="Thryve%20Green_Logo%202%20a_page-0001.jpg" alt="Thryve Green Logo" class="h-16 w-auto object-contain">
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-6 font-semibold text-sm text-gray-600">
+                <button onclick="router('home')" class="hover:text-brand-green transition-colors">Home</button>
+                <button onclick="router('farmers')" class="hover:text-brand-green transition-colors">For Farmers</button>
+                <button onclick="router('business')" class="hover:text-brand-green transition-colors">For Business</button>
+                <button onclick="router('facility')" class="hover:text-brand-green transition-colors">Facility</button>
+                <button onclick="router('partners')" class="hover:text-brand-green transition-colors">Partners</button>
+                <button onclick="router('about')" class="hover:text-brand-green transition-colors">About Us</button>
+                <button onclick="router('contact')" class="px-5 py-2.5 bg-brand-green text-white rounded hover:bg-brand-dark transition-all shadow-lg shadow-brand-green/20">
+                    Partner With Us
+                </button>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-gray-700" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                <i data-lucide="menu" class="w-7 h-7"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full p-4 shadow-xl z-50">
+            <div class="flex flex-col gap-4 text-center font-semibold text-gray-700">
+                <button onclick="router('home')" class="hover:text-brand-green py-2">Home</button>
+                <button onclick="router('farmers')" class="hover:text-brand-green py-2">For Farmers</button>
+                <button onclick="router('business')" class="hover:text-brand-green py-2">For Business</button>
+                <button onclick="router('facility')" class="hover:text-brand-green py-2">Facility</button>
+                <button onclick="router('partners')" class="hover:text-brand-green py-2">Partners</button>
+                <button onclick="router('about')" class="hover:text-brand-green py-2">About Us</button>
+                <button onclick="router('contact')" class="text-brand-green font-bold py-2">Partner With Us</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-grow pt-20">
+
+        <!-- ================= PAGE: HOME ================= -->
+        <div id="page-home" class="page-view active">
+            <!-- 1️⃣ Hero Section -->
+            <header class="relative w-full h-[85vh] flex items-center justify-center hero-bg text-white">
+                <div class="container mx-auto px-6 text-center z-10 mt-16">
+                    <div class="inline-block px-4 py-1 mb-6 border border-white/30 rounded-full bg-black/20 backdrop-blur-sm">
+                        <span class="uppercase text-xs font-bold tracking-widest text-brand-light">Sustainable Biomass Energy</span>
+                    </div>
+
+                    <h1 class="font-heading text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight leading-tight shadow-black/50 drop-shadow-lg">
+                        Turning India’s Waste <br>
+                        <span class="text-brand-light">Into Clean Energy</span>
+                    </h1>
+                    
+                    <p class="text-gray-100 text-lg md:text-2xl mb-10 max-w-3xl mx-auto font-medium drop-shadow-md">
+                        Thryve Green converts agricultural and biomass waste into clean fuel that supports farmers, reduces pollution, and gives industries a practical alternative to coal.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center w-full max-w-lg mx-auto">
+                        <button onclick="router('farmers')" class="w-full sm:w-auto px-8 py-4 bg-brand-green text-white font-bold font-heading rounded hover:bg-brand-dark transition-all shadow-lg transform hover:-translate-y-1 text-center">
+                            I'M A FARMER / FPO
+                        </button>
+                        <button onclick="router('business')" class="w-full sm:w-auto px-8 py-4 bg-white text-brand-green font-bold font-heading rounded hover:bg-gray-100 transition-all shadow-lg transform hover:-translate-y-1 text-center">
+                            I'M A BUSINESS
+                        </button>
+                    </div>
+                </div>
+                <!-- Wave Divider -->
+                <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none rotate-180">
+                    <svg class="relative block w-[calc(100%+1.3px)] h-[60px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="#F9F7F0"></path>
+                    </svg>
+                </div>
+            </header>
+
+            <!-- 2️⃣ The Problem -->
+            <section class="relative py-24 bg-brand-cream">
+                <div class="container mx-auto px-6">
+                    <div class="flex flex-col lg:flex-row items-center gap-16">
+                        <div class="lg:w-1/2">
+                            <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+                                <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?q=80&w=2071&auto=format&fit=crop" alt="Field burning smoke" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-8">
+                                    <div class="text-white">
+                                        <div class="flex items-center gap-2 text-orange-400 font-bold mb-2">
+                                            <i data-lucide="flame" class="w-5 h-5"></i>
+                                            <span>THE REALITY</span>
+                                        </div>
+                                        <p class="text-sm opacity-90">Crop burning causes massive pollution and soil degradation.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:w-1/2">
+                            <h2 class="font-heading text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">
+                                India Has a <span class="text-orange-600">Waste Problem</span> <br>
+                                and an <span class="text-brand-green">Energy Problem</span>.
+                            </h2>
+                            <p class="text-gray-600 mb-8 text-lg">
+                                Every year, India produces millions of tons of crop residue. Much of it is burned in the open, choking our air. Simultaneously, industries rely on polluting coal and firewood.
+                            </p>
+                            <div class="grid sm:grid-cols-2 gap-6 mb-8">
+                                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                                    <i data-lucide="cloud-fog" class="text-gray-400 mb-3 w-8 h-8"></i>
+                                    <h4 class="font-bold text-gray-800">Air Pollution</h4>
+                                    <p class="text-sm text-gray-500 mt-1">Toxic smoke from open stubble burning.</p>
+                                </div>
+                                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                                    <i data-lucide="trash-2" class="text-gray-400 mb-3 w-8 h-8"></i>
+                                    <h4 class="font-bold text-gray-800">Wasted Resources</h4>
+                                    <p class="text-sm text-gray-500 mt-1">Valuable biomass is destroyed.</p>
+                                </div>
+                            </div>
+                            <div class="pl-4 border-l-4 border-brand-green">
+                                <p class="text-sm italic text-gray-600">
+                                    <strong>Why Thryve Green?</strong> We aren't reinventing the wheel. We are professionalizing a mature industry that needs scale, quality, and reliability.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3️⃣ Our Solution (Process) -->
+            <section class="py-24 bg-white relative">
+                <div class="container mx-auto px-6">
+                    <div class="text-center max-w-3xl mx-auto mb-16">
+                        <span class="text-brand-green font-bold tracking-widest uppercase text-sm mb-2 block">Our Approach</span>
+                        <h2 class="text-4xl font-heading font-bold text-gray-900 mb-6">We Turn Waste Into Value</h2>
+                        <p class="text-gray-600 text-lg">
+                            A simple, circular model that benefits everyone in the chain.
+                        </p>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-8 relative">
+                        <div class="hidden md:block absolute top-12 left-[16%] right-[16%] h-1 bg-gray-100 z-0"></div>
+                        <div class="relative z-10 bg-white p-8 rounded-2xl shadow-card hover:shadow-xl transition-all border border-gray-100 text-center group cursor-pointer" onclick="router('farmers')">
+                            <div class="w-20 h-20 mx-auto bg-brand-cream rounded-full flex items-center justify-center mb-6 group-hover:bg-brand-green transition-colors duration-300">
+                                <i data-lucide="tractor" class="w-10 h-10 text-brand-green group-hover:text-white transition-colors"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">1. Source & Collect</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed">
+                                We partner with farmers and FPOs to collect crop residue, providing extra income.
+                            </p>
+                        </div>
+                        <div class="relative z-10 bg-white p-8 rounded-2xl shadow-card hover:shadow-xl transition-all border border-gray-100 text-center group cursor-pointer" onclick="router('facility')">
+                            <div class="w-20 h-20 mx-auto bg-brand-cream rounded-full flex items-center justify-center mb-6 group-hover:bg-brand-green transition-colors duration-300">
+                                <i data-lucide="settings" class="w-10 h-10 text-brand-green group-hover:text-white transition-colors"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">2. Process & Compress</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed">
+                                Using high-pressure densification, we convert loose biomass into dense briquettes.
+                            </p>
+                        </div>
+                        <div class="relative z-10 bg-white p-8 rounded-2xl shadow-card hover:shadow-xl transition-all border border-gray-100 text-center group cursor-pointer" onclick="router('business')">
+                            <div class="w-20 h-20 mx-auto bg-brand-cream rounded-full flex items-center justify-center mb-6 group-hover:bg-brand-green transition-colors duration-300">
+                                <i data-lucide="factory" class="w-10 h-10 text-brand-green group-hover:text-white transition-colors"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">3. Supply Industry</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed">
+                                We deliver clean fuel to industries, helping them cut coal and meet ESG goals.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4️⃣ The Bigger Vision -->
+            <section class="py-24 bg-brand-dark text-white relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-96 h-96 bg-brand-light opacity-10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                <div class="absolute bottom-0 left-0 w-96 h-96 bg-brand-green opacity-10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+                <div class="container mx-auto px-6 relative z-10 text-center">
+                    <i data-lucide="sprout" class="w-12 h-12 text-brand-light mx-auto mb-6"></i>
+                    <h2 class="text-3xl md:text-5xl font-heading font-bold mb-8">Briquettes Are Just The <span class="text-brand-light">Beginning</span></h2>
+                    <div class="max-w-4xl mx-auto bg-white/5 backdrop-blur-md rounded-2xl p-8 md:p-12 border border-white/10">
+                        <p class="text-gray-300 text-lg md:text-xl leading-relaxed mb-8">
+                            "We don’t see ourselves as 'just a briquette company.' Our mission is to turn India’s waste into clean energy, materials, and fuels. In the future, this includes bio-fuels, bio-bitumen, and fossil replacements."
+                        </p>
+                        <button onclick="router('about')" class="px-6 py-3 border border-brand-light text-brand-light hover:bg-brand-light hover:text-white transition-all rounded font-bold uppercase text-sm tracking-widest">Read Our Vision</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= PAGE: FARMERS ================= -->
+        <div id="page-farmers" class="page-view">
+            <!-- 1️⃣ HERO SECTION -->
+            <header class="w-full h-[60vh] flex items-center justify-center farmer-bg text-white relative">
+                <div class="absolute inset-0 bg-black/40"></div>
+                <div class="text-center px-6 max-w-4xl relative z-10">
+                    <h1 class="font-heading text-4xl md:text-6xl font-bold mb-6 shadow-black/50 drop-shadow-lg leading-tight">Benefits for Farmers and FPOs</h1>
+                    <p class="text-xl text-gray-100 mb-8 max-w-2xl mx-auto">Your crop residue has value. We help you earn from it while reducing stubble burning and improving air quality in your village.</p>
+                    <button onclick="router('contact')" class="px-8 py-3 bg-brand-green text-white font-bold rounded shadow-lg hover:bg-brand-dark transition-colors transform hover:-translate-y-1">
+                        Contact Us – Farmers / FPOs
+                    </button>
+                </div>
+            </header>
+
+            <!-- 2️⃣ WHY THIS MATTERS -->
+            <section class="py-20 bg-white">
+                <div class="container mx-auto px-6 max-w-4xl text-center">
+                    <h2 class="text-3xl font-heading font-bold text-gray-900 mb-6">Turning Residue Into Income</h2>
+                    <p class="text-gray-700 text-lg leading-relaxed">
+                        Farmers work hard every season and still face rising input costs, unpredictable weather, and tight margins. Crop residue is often treated as waste — burned to clear fields or left unused.
+                        <br><br>
+                        By collecting and processing this residue, we create a simple way for farmers and FPOs to earn extra income without changing their farming practices.
+                    </p>
+                </div>
+            </section>
+
+            <!-- 3️⃣ WHAT YOU CAN EXPECT -->
+            <section class="py-20 bg-brand-cream">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-heading font-bold text-gray-900">What You Can Expect</h2>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Card 1 -->
+                        <div class="bg-white p-8 rounded-xl shadow-soft hover:shadow-card transition-all">
+                            <div class="w-12 h-12 bg-brand-green/10 rounded-full flex items-center justify-center text-brand-green mb-4">
+                                <i data-lucide="coins" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Extra Income</h3>
+                            <p class="text-gray-600 text-sm">Turn leftover stalks and husks into bonus income. Even small amounts become meaningful when collected properly.</p>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="bg-white p-8 rounded-xl shadow-soft hover:shadow-card transition-all border-l-4 border-brand-orange">
+                            <div class="w-12 h-12 bg-brand-orange/10 rounded-full flex items-center justify-center text-brand-orange mb-4">
+                                <i data-lucide="arrow-left-right" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Flexible Options</h3>
+                            <p class="text-gray-600 text-sm mb-2">Choose how you benefit:</p>
+                            <ul class="text-sm text-gray-500 space-y-1 ml-1">
+                                <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-brand-orange rounded-full"></div> Direct Payment</li>
+                                <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-brand-orange rounded-full"></div> Barter (Biochar/Soil Enhancers)</li>
+                            </ul>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="bg-white p-8 rounded-xl shadow-soft hover:shadow-card transition-all">
+                            <div class="w-12 h-12 bg-brand-green/10 rounded-full flex items-center justify-center text-brand-green mb-4">
+                                <i data-lucide="tractor" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Faster Preparation</h3>
+                            <p class="text-gray-600 text-sm">Remove residue properly to prepare land for the next crop cycle without smoke or delays.</p>
+                        </div>
+
+                        <!-- Card 4 -->
+                        <div class="bg-white p-8 rounded-xl shadow-soft hover:shadow-card transition-all">
+                            <div class="w-12 h-12 bg-brand-green/10 rounded-full flex items-center justify-center text-brand-green mb-4">
+                                <i data-lucide="wind" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Better Air Quality</h3>
+                            <p class="text-gray-600 text-sm">Avoid stubble burning to protect the air quality your own village depends on.</p>
+                        </div>
+
+                        <!-- Card 5 -->
+                        <div class="bg-white p-8 rounded-xl shadow-soft hover:shadow-card transition-all md:col-span-2 lg:col-span-2">
+                            <div class="w-12 h-12 bg-brand-green/10 rounded-full flex items-center justify-center text-brand-green mb-4">
+                                <i data-lucide="handshake" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Long-term Partnership</h3>
+                            <p class="text-gray-600 text-sm">We value steady relationships and transparent communication — not just one-time collection deals.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4️⃣ WHAT WE BUY -->
+            <section class="py-20 bg-white">
+                <div class="container mx-auto px-6">
+                    <div class="flex flex-col lg:flex-row gap-12 items-center">
+                        <div class="lg:w-1/2">
+                            <h2 class="text-3xl font-heading font-bold text-gray-900 mb-6">Types of Biomass We Accept</h2>
+                            <p class="text-gray-600 mb-6">We accept a wide range of dry crop residue suitable for briquetting. If you are unsure, we will guide you on moisture and suitability.</p>
+                            
+                            <ul class="grid grid-cols-2 gap-4">
+                                <li class="flex items-center gap-3 p-3 bg-gray-50 rounded border border-gray-100">
+                                    <i data-lucide="check-circle" class="text-brand-green w-5 h-5"></i>
+                                    <span class="font-medium text-gray-700">Paddy Straw</span>
+                                </li>
+                                <li class="flex items-center gap-3 p-3 bg-gray-50 rounded border border-gray-100">
+                                    <i data-lucide="check-circle" class="text-brand-green w-5 h-5"></i>
+                                    <span class="font-medium text-gray-700">Sugarcane Trash</span>
+                                </li>
+                                <li class="flex items-center gap-3 p-3 bg-gray-50 rounded border border-gray-100">
+                                    <i data-lucide="check-circle" class="text-brand-green w-5 h-5"></i>
+                                    <span class="font-medium text-gray-700">Groundnut Shells</span>
+                                </li>
+                                <li class="flex items-center gap-3 p-3 bg-gray-50 rounded border border-gray-100">
+                                    <i data-lucide="check-circle" class="text-brand-green w-5 h-5"></i>
+                                    <span class="font-medium text-gray-700">Cotton Stalks</span>
+                                </li>
+                                <li class="flex items-center gap-3 p-3 bg-gray-50 rounded border border-gray-100">
+                                    <i data-lucide="check-circle" class="text-brand-green w-5 h-5"></i>
+                                    <span class="font-medium text-gray-700">Maize Stalks</span>
+                                </li>
+                                <li class="flex items-center gap-3 p-3 bg-gray-50 rounded border border-gray-100">
+                                    <i data-lucide="check-circle" class="text-brand-green w-5 h-5"></i>
+                                    <span class="font-medium text-gray-700">Coconut Husk</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="lg:w-1/2">
+                            <div class="rounded-2xl overflow-hidden shadow-2xl rotate-1 hover:rotate-0 transition-all duration-500">
+                                <img src="https://images.unsplash.com/photo-1621961458348-f013d219b50c?q=80&w=2070&auto=format&fit=crop" alt="Dried crop residue" class="w-full h-auto">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5️⃣ HOW IT WORKS -->
+            <section class="py-20 bg-brand-dark text-white">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl font-heading font-bold mb-4">How It Works</h2>
+                        <p class="text-brand-light opacity-90">A simple and farmer-friendly process.</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-4 gap-8 relative">
+                        <!-- Connector Line -->
+                        <div class="hidden md:block absolute top-8 left-[12%] right-[12%] h-0.5 bg-white/20 z-0"></div>
+
+                        <!-- Step 1 -->
+                        <div class="relative z-10 text-center">
+                            <div class="w-16 h-16 mx-auto bg-brand-green rounded-full flex items-center justify-center mb-6 shadow-[0_0_15px_rgba(72,187,120,0.5)] border-4 border-brand-dark">
+                                <span class="font-bold text-xl">1</span>
+                            </div>
+                            <h3 class="text-lg font-bold mb-2">Contact Us</h3>
+                            <p class="text-sm text-gray-300">Share your village, crop type, and quantity.</p>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="relative z-10 text-center">
+                            <div class="w-16 h-16 mx-auto bg-brand-green rounded-full flex items-center justify-center mb-6 shadow-[0_0_15px_rgba(72,187,120,0.5)] border-4 border-brand-dark">
+                                <span class="font-bold text-xl">2</span>
+                            </div>
+                            <h3 class="text-lg font-bold mb-2">Planning</h3>
+                            <p class="text-sm text-gray-300">We discuss moisture, pricing, and logistics transparently.</p>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="relative z-10 text-center">
+                            <div class="w-16 h-16 mx-auto bg-brand-green rounded-full flex items-center justify-center mb-6 shadow-[0_0_15px_rgba(72,187,120,0.5)] border-4 border-brand-dark">
+                                <span class="font-bold text-xl">3</span>
+                            </div>
+                            <h3 class="text-lg font-bold mb-2">Collection</h3>
+                            <p class="text-sm text-gray-300">We arrange the most efficient pickup method.</p>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="relative z-10 text-center">
+                            <div class="w-16 h-16 mx-auto bg-brand-green rounded-full flex items-center justify-center mb-6 shadow-[0_0_15px_rgba(72,187,120,0.5)] border-4 border-brand-dark">
+                                <span class="font-bold text-xl">4</span>
+                            </div>
+                            <h3 class="text-lg font-bold mb-2">Benefit</h3>
+                            <p class="text-sm text-gray-300">Receive payment or your chosen barter option.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6️⃣ FOR FPOs -->
+            <section class="py-20 bg-brand-cream">
+                <div class="container mx-auto px-6">
+                    <div class="bg-white p-8 md:p-12 rounded-2xl shadow-card border-l-8 border-brand-green">
+                        <div class="flex flex-col md:flex-row gap-8 items-start">
+                            <div class="md:w-2/3">
+                                <h2 class="text-3xl font-heading font-bold text-gray-900 mb-4">Support for FPOs and Cooperatives</h2>
+                                <p class="text-gray-700 mb-6 text-lg">
+                                    FPOs play a crucial role in organizing supply. We offer dedicated support to help you coordinate biomass from multiple farmers.
+                                </p>
+                                <ul class="grid md:grid-cols-2 gap-4">
+                                    <li class="flex items-center gap-3">
+                                        <div class="w-2 h-2 bg-brand-green rounded-full"></div>
+                                        <span>Bulk pricing incentives</span>
+                                    </li>
+                                    <li class="flex items-center gap-3">
+                                        <div class="w-2 h-2 bg-brand-green rounded-full"></div>
+                                        <span>Logistics & Pickup planning</span>
+                                    </li>
+                                    <li class="flex items-center gap-3">
+                                        <div class="w-2 h-2 bg-brand-green rounded-full"></div>
+                                        <span>Long-term purchase agreements</span>
+                                    </li>
+                                    <li class="flex items-center gap-3">
+                                        <div class="w-2 h-2 bg-brand-green rounded-full"></div>
+                                        <span>Technical support on storage</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="md:w-1/3 bg-brand-green/5 p-6 rounded-xl border border-brand-green/20">
+                                <h4 class="font-bold text-brand-dark mb-2">FPO Advantage</h4>
+                                <p class="text-sm text-gray-600 mb-4">Earn additional revenue by coordinating and consolidating supply from your member base.</p>
+                                <button onclick="router('contact')" class="text-sm font-bold text-brand-green border-b border-brand-green hover:text-brand-dark">Partner as an FPO</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7️⃣ ENVIRONMENT -->
+            <section class="py-20 bg-white text-center">
+                <div class="container mx-auto px-6 max-w-4xl">
+                    <i data-lucide="sprout" class="w-12 h-12 text-brand-green mx-auto mb-4"></i>
+                    <h2 class="text-3xl font-heading font-bold text-gray-900 mb-6">Good for Your Fields. Good for Your Community.</h2>
+                    <p class="text-gray-600 text-lg mb-8">
+                        Selling crop residue instead of burning it helps reduce local air pollution, protect soil health, and improve living conditions for families. Cleaner air benefits everyone — especially your own village.
+                    </p>
+                </div>
+            </section>
+
+            <!-- 8️⃣ FINAL CTA -->
+            <section class="py-20 bg-brand-green text-white text-center">
+                <div class="container mx-auto px-6 max-w-3xl">
+                    <h2 class="text-4xl font-heading font-bold mb-4">Interested in Selling Crop Residue?</h2>
+                    <p class="text-xl opacity-90 mb-10">We’re happy to explain the process based on your village, crop type, and preferred benefit model.</p>
+                    <button onclick="router('contact')" class="px-10 py-4 bg-white text-brand-green font-bold text-lg rounded shadow-lg hover:bg-gray-100 transition-all transform hover:scale-105">
+                        Contact Us – Farmers / FPOs
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= PAGE: BUSINESS ================= -->
+        <div id="page-business" class="page-view">
+            <!-- 1. Hero Section -->
+            <header class="w-full h-[60vh] flex items-center justify-center business-bg text-white relative">
+                 <div class="absolute inset-0 bg-black/50"></div>
+                 <div class="text-center px-6 max-w-4xl relative z-10">
+                    <h1 class="font-heading text-4xl md:text-6xl font-bold mb-6 shadow-black/50 drop-shadow-lg leading-tight">Benefits for Businesses and the Environment</h1>
+                    <p class="text-xl text-gray-100 mb-8 max-w-3xl mx-auto">Biomass briquettes offer a cleaner alternative to coal and firewood. They help reduce emissions, support sustainability goals, and provide a reliable source of energy for industrial use.</p>
+                    <button onclick="router('contact')" class="px-8 py-3 bg-brand-green text-white font-bold rounded shadow-lg hover:bg-brand-dark transition-colors transform hover:-translate-y-1">
+                        Contact Us – Businesses
+                    </button>
+                 </div>
+            </header>
+
+            <!-- 2. Why Businesses Are Switching -->
+            <section class="py-20 bg-white">
+                <div class="container mx-auto px-6 max-w-4xl text-center">
+                    <h2 class="text-3xl font-heading font-bold text-gray-900 mb-6">A Practical and Cleaner Fuel Choice</h2>
+                    <p class="text-gray-700 text-lg leading-relaxed">
+                        Industries in India are looking for cleaner energy options that do not disrupt operations. Biomass briquettes make this shift possible. They burn cleaner than coal and are more consistent than firewood, which makes them suitable for many industrial heating applications.
+                    </p>
+                </div>
+            </section>
+
+            <!-- 3. What Your Business Gains -->
+            <section class="py-20 bg-brand-cream">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-heading font-bold text-gray-900">Key Benefits for Industries</h2>
+                    </div>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Benefit 1 -->
+                        <div class="bg-white p-8 rounded-xl shadow-soft hover:shadow-card transition-all">
+                            <i data-lucide="wind" class="w-10 h-10 text-brand-green mb-4"></i>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Cleaner fuel compared to coal</h3>
+                            <p class="text-gray-600 text-sm">Briquettes release less sulfur, smoke, and ash while maintaining stable heat output.</p>
+                        </div>
+                        <!-- Benefit 2 -->
+                        <div class="bg-white p-8 rounded-xl shadow-soft hover:shadow-card transition-all">
+                            <i data-lucide="bar-chart-2" class="w-10 h-10 text-brand-green mb-4"></i>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Better for ESG goals</h3>
+                            <p class="text-gray-600 text-sm">Using renewable fuel supports your company’s sustainability reporting and environmental commitments.</p>
+                        </div>
+                        <!-- Benefit 3 -->
+                        <div class="bg-white p-8 rounded-xl shadow-soft hover:shadow-card transition-all">
+                            <i data-lucide="package" class="w-10 h-10 text-brand-green mb-4"></i>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Consistent form</h3>
+                            <p class="text-gray-600 text-sm">Uniform briquettes are easier to store, handle, and feed into boilers compared to loose firewood.</p>
+                        </div>
+                        <!-- Benefit 4 -->
+                        <div class="bg-white p-8 rounded-xl shadow-soft hover:shadow-card transition-all">
+                            <i data-lucide="activity" class="w-10 h-10 text-brand-green mb-4"></i>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Stable supply</h3>
+                            <p class="text-gray-600 text-sm">We focus on consistent quality and reliability so you can run your operations smoothly.</p>
+                        </div>
+                        <!-- Benefit 5 -->
+                        <div class="bg-white p-8 rounded-xl shadow-soft hover:shadow-card transition-all md:col-span-2 lg:col-span-2">
+                            <i data-lucide="heart-handshake" class="w-10 h-10 text-brand-green mb-4"></i>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Responsible sourcing</h3>
+                            <p class="text-gray-600 text-sm">Your fuel choice helps reduce stubble burning and supports farmers, adding social value to your business.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. How Briquettes Help the Environment -->
+            <section class="py-20 bg-brand-dark text-white relative overflow-hidden">
+                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+                <div class="container mx-auto px-6 relative z-10">
+                    <div class="flex flex-col lg:flex-row items-center gap-12">
+                        <div class="lg:w-1/2">
+                            <h2 class="text-3xl font-heading font-bold mb-6">Better for Business and <br><span class="text-brand-light">Better for the Air</span></h2>
+                            <p class="text-gray-300 text-lg mb-6">
+                                Turning crop residue into briquettes prevents open burning and reduces the use of fossil fuels. Cleaner operations benefit both your facility and the surrounding environment.
+                            </p>
+                            <p class="font-bold text-white mb-4">Each ton of briquettes used can help:</p>
+                            <ul class="space-y-3">
+                                <li class="flex items-center gap-3 text-gray-300"><div class="w-2 h-2 bg-brand-light rounded-full"></div> Reduce carbon emissions</li>
+                                <li class="flex items-center gap-3 text-gray-300"><div class="w-2 h-2 bg-brand-light rounded-full"></div> Replace a portion of coal or firewood</li>
+                                <li class="flex items-center gap-3 text-gray-300"><div class="w-2 h-2 bg-brand-light rounded-full"></div> Lower local pollution levels</li>
+                                <li class="flex items-center gap-3 text-gray-300"><div class="w-2 h-2 bg-brand-light rounded-full"></div> Support cleaner communities</li>
+                            </ul>
+                        </div>
+                        <div class="lg:w-1/2">
+                            <div class="bg-white/10 p-8 rounded-2xl backdrop-blur-sm border border-white/10">
+                                <div class="flex items-start gap-4 mb-6">
+                                    <i data-lucide="shield-check" class="w-8 h-8 text-brand-light mt-1"></i>
+                                    <div>
+                                        <h3 class="text-xl font-bold text-white mb-2">Support for EHS and Compliance</h3>
+                                        <p class="text-gray-300 text-sm">Cleaner fuel helps businesses stay aligned with environmental expectations. Biomass briquettes can support your facility with:</p>
+                                    </div>
+                                </div>
+                                <ul class="grid gap-3 text-sm text-gray-300">
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-light"></i> Lower emission load for approvals</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-light"></i> Better alignment with ESG reporting</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-light"></i> Support for cleaner production audits</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-light"></i> Improved perception during inspections</li>
+                                </ul>
+                                <p class="text-xs text-gray-500 mt-4 italic">* Benefits vary by industry and location.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. Suitable Applications & 6. Quality -->
+            <section class="py-20 bg-white">
+                <div class="container mx-auto px-6">
+                    <div class="grid lg:grid-cols-2 gap-16">
+                        <!-- Applications -->
+                        <div>
+                            <h2 class="text-3xl font-heading font-bold text-gray-900 mb-6">Where Briquettes Can Be Used</h2>
+                            <p class="text-gray-600 mb-8">Briquettes are suitable for a wide range of boilers and industrial processes. If you are not sure about compatibility, we can guide you based on your current system.</p>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="p-4 bg-gray-50 rounded border border-gray-100 flex items-center gap-3">
+                                    <i data-lucide="utensils" class="text-brand-orange"></i> <span class="font-semibold text-gray-700">Food Processing</span>
+                                </div>
+                                <div class="p-4 bg-gray-50 rounded border border-gray-100 flex items-center gap-3">
+                                    <i data-lucide="pill" class="text-brand-orange"></i> <span class="font-semibold text-gray-700">Pharmaceuticals</span>
+                                </div>
+                                <div class="p-4 bg-gray-50 rounded border border-gray-100 flex items-center gap-3">
+                                    <i data-lucide="flask-conical" class="text-brand-orange"></i> <span class="font-semibold text-gray-700">Chemicals</span>
+                                </div>
+                                <div class="p-4 bg-gray-50 rounded border border-gray-100 flex items-center gap-3">
+                                    <i data-lucide="milk" class="text-brand-orange"></i> <span class="font-semibold text-gray-700">Dairy Units</span>
+                                </div>
+                                <div class="p-4 bg-gray-50 rounded border border-gray-100 flex items-center gap-3">
+                                    <i data-lucide="shirt" class="text-brand-orange"></i> <span class="font-semibold text-gray-700">Textiles</span>
+                                </div>
+                                <div class="p-4 bg-gray-50 rounded border border-gray-100 flex items-center gap-3">
+                                    <i data-lucide="building" class="text-brand-orange"></i> <span class="font-semibold text-gray-700">Hospitality</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quality Focus -->
+                        <div>
+                            <h2 class="text-3xl font-heading font-bold text-gray-900 mb-6">Quality You Can Expect</h2>
+                            <p class="text-gray-600 mb-8">Our goal is to provide fuel that industries can depend on.</p>
+                            
+                            <ul class="space-y-4">
+                                <li class="flex items-start gap-4">
+                                    <div class="w-8 h-8 bg-brand-green/10 rounded-full flex items-center justify-center text-brand-green mt-1 flex-shrink-0">1</div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Consistent Size & Density</h4>
+                                        <p class="text-sm text-gray-600">Ensures uniform combustion in boilers.</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <div class="w-8 h-8 bg-brand-green/10 rounded-full flex items-center justify-center text-brand-green mt-1 flex-shrink-0">2</div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Controlled Moisture</h4>
+                                        <p class="text-sm text-gray-600">Maximized calorific value for efficiency.</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <div class="w-8 h-8 bg-brand-green/10 rounded-full flex items-center justify-center text-brand-green mt-1 flex-shrink-0">3</div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Clean Biomass</h4>
+                                        <p class="text-sm text-gray-600">Minimal impurities to reduce clinker formation.</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <div class="w-8 h-8 bg-brand-green/10 rounded-full flex items-center justify-center text-brand-green mt-1 flex-shrink-0">4</div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Clear Supply Planning</h4>
+                                        <p class="text-sm text-gray-600">Reliable scheduling to prevent stock-outs.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 8. The Bigger Picture -->
+            <section class="py-16 bg-brand-cream border-t border-gray-200 text-center">
+                <div class="container mx-auto px-6 max-w-3xl">
+                    <h2 class="text-2xl font-heading font-bold text-gray-900 mb-4">A Step Toward a Cleaner Future</h2>
+                    <p class="text-gray-700 italic">
+                        "Switching to briquettes is a practical first step. Our long-term goal is to expand into more waste-based products that reduce pollution and replace fossil materials. Your choices today support a cleaner and more sustainable energy future."
+                    </p>
+                </div>
+            </section>
+
+            <!-- 9. Final Call to Action -->
+            <section class="py-20 bg-brand-green text-white text-center">
+                <div class="container mx-auto px-6 max-w-3xl">
+                    <h2 class="text-4xl font-heading font-bold mb-4">Ready to Explore Biomass Briquettes?</h2>
+                    <p class="text-xl opacity-90 mb-10">We can help you understand cost, compatibility, and supply based on your operations.</p>
+                    <button onclick="router('contact')" class="px-10 py-4 bg-white text-brand-green font-bold text-lg rounded shadow-lg hover:bg-gray-100 transition-all transform hover:scale-105">
+                        Contact Us – Businesses
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= PAGE: FACILITY ================= -->
+        <div id="page-facility" class="page-view">
+            <!-- 1. Hero Section -->
+            <header class="w-full h-[60vh] flex items-center justify-center relative bg-gray-900 text-white">
+                <!-- Using a specific industrial/construction background image -->
+                <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-40"></div>
+                <div class="text-center px-6 max-w-4xl relative z-10">
+                    <h1 class="font-heading text-4xl md:text-6xl font-bold mb-6 shadow-black/50 drop-shadow-lg">Our Production Facility</h1>
+                    <p class="text-xl text-gray-100 mb-8 max-w-3xl mx-auto">A clean and efficient setup designed for consistent biomass briquette production and future expansion into other waste-based products.</p>
+                </div>
+            </header>
+
+            <!-- 2. Introduction -->
+            <section class="py-20 bg-white">
+                <div class="container mx-auto px-6 max-w-4xl text-center">
+                    <h2 class="text-3xl font-heading font-bold text-gray-900 mb-6">Building a Facility That Grows With Us</h2>
+                    <p class="text-gray-700 text-lg leading-relaxed">
+                        We are setting up a biomass briquette production facility focused on reliability, safety, and consistent quality. The goal is to create a foundation that can support both our current needs and our long-term plans.
+                    </p>
+                    <p class="text-sm text-brand-green font-bold mt-4 uppercase tracking-widest">This page will be updated as more details are finalized.</p>
+                </div>
+            </section>
+
+            <!-- 3. Location & 4. Capacity -->
+            <section class="py-20 bg-brand-cream">
+                <div class="container mx-auto px-6">
+                    <div class="grid md:grid-cols-2 gap-12">
+                        <!-- Location Card -->
+                        <div class="bg-white p-8 rounded-xl shadow-soft">
+                            <div class="flex items-center gap-3 mb-6">
+                                <div class="w-10 h-10 bg-brand-green/10 rounded-full flex items-center justify-center text-brand-green">
+                                    <i data-lucide="map" class="w-5 h-5"></i>
+                                </div>
+                                <h3 class="text-2xl font-heading font-bold text-gray-900">Location and Land Details</h3>
+                            </div>
+                            <p class="text-gray-600 mb-6 text-sm">We designed the layout to support smooth material flow and safe operations.</p>
+                            <ul class="space-y-4">
+                                <li class="flex justify-between border-b border-gray-100 pb-2">
+                                    <span class="font-bold text-gray-700">Facility Location</span>
+                                    <span class="text-gray-500 italic">To be updated</span>
+                                </li>
+                                <li class="flex justify-between border-b border-gray-100 pb-2">
+                                    <span class="font-bold text-gray-700">Total Land Area</span>
+                                    <span class="text-gray-500 italic">To be updated</span>
+                                </li>
+                                <li class="flex justify-between border-b border-gray-100 pb-2">
+                                    <span class="font-bold text-gray-700">Production Shed Space</span>
+                                    <span class="text-gray-500 italic">To be updated</span>
+                                </li>
+                                <li class="flex justify-between border-b border-gray-100 pb-2">
+                                    <span class="font-bold text-gray-700">Storage Areas</span>
+                                    <span class="text-gray-500 italic">To be updated</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Capacity Card -->
+                        <div class="bg-white p-8 rounded-xl shadow-soft border-t-4 border-brand-orange">
+                            <div class="flex items-center gap-3 mb-6">
+                                <div class="w-10 h-10 bg-brand-orange/10 rounded-full flex items-center justify-center text-brand-orange">
+                                    <i data-lucide="bar-chart" class="w-5 h-5"></i>
+                                </div>
+                                <h3 class="text-2xl font-heading font-bold text-gray-900">Current Production Capacity</h3>
+                            </div>
+                            <p class="text-gray-600 mb-6 text-sm">Even at the basic stage, we aim for stable and predictable production.</p>
+                            <ul class="space-y-4">
+                                <li class="flex justify-between border-b border-gray-100 pb-2">
+                                    <span class="font-bold text-gray-700">Briquette Capacity</span>
+                                    <span class="text-gray-500 italic">To be updated</span>
+                                </li>
+                                <li class="flex justify-between border-b border-gray-100 pb-2">
+                                    <span class="font-bold text-gray-700">Shift Hours/Day</span>
+                                    <span class="text-gray-500 italic">To be updated</span>
+                                </li>
+                                <li class="flex justify-between border-b border-gray-100 pb-2">
+                                    <span class="font-bold text-gray-700">Operating Days/Month</span>
+                                    <span class="text-gray-500 italic">To be updated</span>
+                                </li>
+                                <li class="flex justify-between border-b border-gray-100 pb-2">
+                                    <span class="font-bold text-gray-700">Monthly Output</span>
+                                    <span class="text-gray-500 italic">To be updated</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. Equipment Overview -->
+            <section class="py-20 bg-white">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-heading font-bold text-gray-900">Equipment and Process Setup</h2>
+                        <p class="text-gray-600 mt-2">Each unit is selected to support consistent quality and smooth operations.</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 lg:grid-cols-5 gap-4 text-center">
+                        <div class="p-6 bg-gray-50 rounded-lg border border-gray-100 hover:border-brand-green transition-colors">
+                            <i data-lucide="scissors" class="mx-auto mb-3 text-brand-green w-8 h-8"></i>
+                            <h4 class="font-bold text-sm">Shredding & Size Reduction</h4>
+                        </div>
+                        <div class="p-6 bg-gray-50 rounded-lg border border-gray-100 hover:border-brand-green transition-colors">
+                            <i data-lucide="sun" class="mx-auto mb-3 text-brand-green w-8 h-8"></i>
+                            <h4 class="font-bold text-sm">Drying System</h4>
+                        </div>
+                        <div class="p-6 bg-gray-50 rounded-lg border border-gray-100 hover:border-brand-green transition-colors">
+                            <i data-lucide="hammer" class="mx-auto mb-3 text-brand-green w-8 h-8"></i>
+                            <h4 class="font-bold text-sm">Briquette Press</h4>
+                        </div>
+                        <div class="p-6 bg-gray-50 rounded-lg border border-gray-100 hover:border-brand-green transition-colors">
+                            <i data-lucide="move" class="mx-auto mb-3 text-brand-green w-8 h-8"></i>
+                            <h4 class="font-bold text-sm">Conveyor Systems</h4>
+                        </div>
+                        <div class="p-6 bg-gray-50 rounded-lg border border-gray-100 hover:border-brand-green transition-colors">
+                            <i data-lucide="package" class="mx-auto mb-3 text-brand-green w-8 h-8"></i>
+                            <h4 class="font-bold text-sm">Storage Facilities</h4>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. Quality & Safety -->
+            <section class="py-20 bg-brand-dark text-white">
+                <div class="container mx-auto px-6">
+                    <div class="flex flex-col md:flex-row gap-12 items-center">
+                        <div class="md:w-1/2">
+                            <h2 class="text-3xl font-heading font-bold mb-6">Quality and Safety at the Core</h2>
+                            <p class="text-gray-300 mb-6">We follow a structured process to maintain quality. As the facility expands, we plan to introduce more quality checks and automation.</p>
+                            <ul class="space-y-4">
+                                <li class="flex items-center gap-3">
+                                    <div class="w-2 h-2 bg-brand-light rounded-full"></div>
+                                    <span>Checking moisture levels of raw material</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <div class="w-2 h-2 bg-brand-light rounded-full"></div>
+                                    <span>Ensuring consistent density and size</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <div class="w-2 h-2 bg-brand-light rounded-full"></div>
+                                    <span>Maintaining clean and safe work areas</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <div class="w-2 h-2 bg-brand-light rounded-full"></div>
+                                    <span>Following safety guidelines for machinery</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <div class="w-2 h-2 bg-brand-light rounded-full"></div>
+                                    <span>Tracking production performance</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="md:w-1/2">
+                            <div class="bg-white/5 p-8 rounded-2xl border border-white/10 flex items-center justify-center">
+                                <i data-lucide="shield-check" class="w-32 h-32 text-brand-light opacity-50"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. Future Expansion -->
+            <section class="py-20 bg-white">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="text-3xl font-heading font-bold text-gray-900 mb-6">Designed for Future Growth</h2>
+                    <p class="text-gray-600 mb-10 max-w-3xl mx-auto">
+                        Our facility is planned with long-term growth in mind. We want this facility to become the base for multiple clean energy and waste-to-resource products.
+                    </p>
+                    
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <span class="px-6 py-3 bg-brand-cream text-brand-green font-bold rounded-full border border-brand-green/20">Pellet Production</span>
+                        <span class="px-6 py-3 bg-brand-cream text-brand-green font-bold rounded-full border border-brand-green/20">Biochar Production</span>
+                        <span class="px-6 py-3 bg-brand-cream text-brand-green font-bold rounded-full border border-brand-green/20">Bio-bitumen R&D</span>
+                        <span class="px-6 py-3 bg-brand-cream text-brand-green font-bold rounded-full border border-brand-green/20">Cleaner Materials</span>
+                        <span class="px-6 py-3 bg-brand-cream text-brand-green font-bold rounded-full border border-brand-green/20">Additional Briquette Lines</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 8. Image Placeholder -->
+            <section class="py-12 bg-gray-100 border-y border-gray-200">
+                <div class="container mx-auto px-6">
+                    <div class="w-full h-96 bg-gray-200 rounded-xl border-2 border-dashed border-gray-400 flex flex-col items-center justify-center text-gray-500">
+                        <i data-lucide="image" class="w-16 h-16 mb-4 opacity-50"></i>
+                        <h3 class="text-xl font-bold mb-2">Facility Layout and Photos</h3>
+                        <p>Layout drawings, photos, and diagrams will be added once the facility is ready.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 9. CTA -->
+            <section class="py-20 bg-brand-green text-white text-center">
+                <div class="container mx-auto px-6 max-w-3xl">
+                    <h2 class="text-4xl font-heading font-bold mb-4">Want to Know More About Our Facility?</h2>
+                    <p class="text-xl opacity-90 mb-10">We will share updates as construction and setup progress. If you want to stay informed or discuss supply needs, contact us.</p>
+                    <button onclick="router('contact')" class="px-10 py-4 bg-white text-brand-green font-bold text-lg rounded shadow-lg hover:bg-gray-100 transition-all transform hover:scale-105">
+                        Contact Us
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= PAGE: PARTNERS ================= -->
+        <div id="page-partners" class="page-view">
+            <!-- Hero -->
+            <header class="w-full h-[60vh] flex items-center justify-center relative bg-gray-900 text-white">
+                <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=2084&auto=format&fit=crop')] bg-cover bg-center opacity-40"></div>
+                <div class="text-center px-6 max-w-4xl relative z-10">
+                    <h1 class="font-heading text-4xl md:text-6xl font-bold mb-6 shadow-black/50 drop-shadow-lg">Our Partners & Future Customers</h1>
+                    <p class="text-xl text-gray-100 mb-8 max-w-3xl mx-auto">We are building long-term relationships with FPOs, farmers, and businesses that want to move toward cleaner and more responsible energy solutions.</p>
+                </div>
+            </header>
+
+            <!-- Intro -->
+            <section class="py-20 bg-white">
+                <div class="container mx-auto px-6 max-w-4xl text-center">
+                    <h2 class="text-3xl font-heading font-bold text-gray-900 mb-6">A Growing Network With a Shared Goal</h2>
+                    <p class="text-gray-700 text-lg leading-relaxed mb-6">
+                        Thryve Green is at an early stage, and we are in the process of building a strong network of FPOs and business partners. We want to highlight everyone who joins us in this mission to reduce waste, support cleaner fuel, and create a more sustainable future.
+                    </p>
+                    <p class="text-brand-green font-bold">This page will grow as our partnerships grow.</p>
+                </div>
+            </section>
+
+            <!-- FPOs -->
+            <section class="py-20 bg-brand-cream">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <span class="text-brand-green font-bold tracking-widest uppercase text-sm mb-2 block">Supply Network</span>
+                        <h2 class="text-3xl font-heading font-bold text-gray-900">Partnered FPOs</h2>
+                        <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+                            We work closely with Farmer Producer Organizations to collect and organize crop residue. This creates a smooth supply chain that benefits both sides.
+                        </p>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-6 mb-12">
+                        <!-- Placeholder FPO 1 -->
+                        <div class="bg-white p-6 rounded-xl shadow-soft border border-dashed border-gray-300 flex items-center justify-center flex-col text-center h-48">
+                            <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-3">
+                                <i data-lucide="users" class="text-gray-400"></i>
+                            </div>
+                            <h4 class="font-bold text-gray-400 mb-1">FPO Name 1</h4>
+                            <p class="text-xs text-gray-400">Location Placeholder</p>
+                        </div>
+                        <!-- Placeholder FPO 2 -->
+                        <div class="bg-white p-6 rounded-xl shadow-soft border border-dashed border-gray-300 flex items-center justify-center flex-col text-center h-48">
+                            <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-3">
+                                <i data-lucide="users" class="text-gray-400"></i>
+                            </div>
+                            <h4 class="font-bold text-gray-400 mb-1">FPO Name 2</h4>
+                            <p class="text-xs text-gray-400">Location Placeholder</p>
+                        </div>
+                        <!-- Add New -->
+                        <div class="bg-brand-green/5 p-6 rounded-xl border border-brand-green/20 flex items-center justify-center flex-col text-center h-48 cursor-pointer hover:bg-brand-green/10 transition-colors" onclick="router('contact')">
+                            <i data-lucide="plus-circle" class="text-brand-green w-8 h-8 mb-2"></i>
+                            <h4 class="font-bold text-brand-green">Join Our Network</h4>
+                            <p class="text-xs text-gray-600 mt-1">We welcome new FPOs</p>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button onclick="router('contact')" class="px-8 py-3 bg-brand-green text-white font-bold rounded shadow hover:bg-brand-dark transition-colors">
+                            Partner With Us – FPOs
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Businesses -->
+            <section class="py-20 bg-white">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <span class="text-brand-green font-bold tracking-widest uppercase text-sm mb-2 block">Our Clients</span>
+                        <h2 class="text-3xl font-heading font-bold text-gray-900">Businesses Using Our Product</h2>
+                        <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+                            This section will feature the forward-thinking companies that choose biomass briquettes as part of their clean energy path.
+                        </p>
+                    </div>
+
+                    <div class="bg-gray-50 border border-gray-200 rounded-xl p-12 text-center">
+                        <i data-lucide="briefcase" class="mx-auto text-gray-300 w-12 h-12 mb-4"></i>
+                        <h3 class="text-xl font-bold text-gray-400 mb-2">Client Showcase Coming Soon</h3>
+                        <p class="text-gray-500 max-w-md mx-auto">
+                            As we begin production, we will update this list with names, locations, and success stories of our industrial partners.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimonials -->
+            <section class="py-20 bg-brand-dark text-white">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-heading font-bold">What Our Future Customers Will Share</h2>
+                        <p class="text-brand-light opacity-90 mt-2">Testimonials help new businesses understand the real benefits of switching.</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <!-- Placeholder Testimonial 1 -->
+                        <div class="bg-white/5 p-8 rounded-xl border border-white/10 relative">
+                            <i data-lucide="quote" class="text-brand-green opacity-50 w-8 h-8 mb-4"></i>
+                            <p class="text-gray-300 italic mb-6">
+                                "Quote from customer will be added here. It will describe performance, ease of use, or environmental benefits."
+                            </p>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-white/10 rounded-full"></div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Company Name</h4>
+                                    <p class="text-xs text-gray-400">Industry Type</p>
+                                </div>
+                            </div>
+                        </div>
+
+                         <!-- Placeholder Testimonial 2 -->
+                         <div class="bg-white/5 p-8 rounded-xl border border-white/10 relative">
+                            <i data-lucide="quote" class="text-brand-green opacity-50 w-8 h-8 mb-4"></i>
+                            <p class="text-gray-300 italic mb-6">
+                                "Feedback from another customer about reliability, quality, or partnership experience."
+                            </p>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-white/10 rounded-full"></div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Company Name</h4>
+                                    <p class="text-xs text-gray-400">Industry Type</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Why Partner -->
+            <section class="py-20 bg-brand-cream">
+                <div class="container mx-auto px-6 max-w-4xl">
+                    <div class="text-center mb-10">
+                         <h2 class="text-3xl font-heading font-bold text-gray-900">Why Businesses & FPOs Choose Thryve Green</h2>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="flex items-center gap-3 bg-white p-4 rounded shadow-sm">
+                            <i data-lucide="check" class="text-brand-green"></i>
+                            <span class="font-bold text-gray-700">Transparency in pricing and supply</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-white p-4 rounded shadow-sm">
+                            <i data-lucide="check" class="text-brand-green"></i>
+                            <span class="font-bold text-gray-700">Support for cleaner energy practices</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-white p-4 rounded shadow-sm">
+                            <i data-lucide="check" class="text-brand-green"></i>
+                            <span class="font-bold text-gray-700">Professional and dependable operations</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-white p-4 rounded shadow-sm">
+                            <i data-lucide="check" class="text-brand-green"></i>
+                            <span class="font-bold text-gray-700">Focus on long-term relationships</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA -->
+            <section class="py-20 bg-brand-green text-white text-center">
+                <div class="container mx-auto px-6 max-w-3xl">
+                    <h2 class="text-4xl font-heading font-bold mb-6">Join Us in Building a Cleaner Future</h2>
+                    <p class="text-xl opacity-90 mb-10">Whether you are an FPO or a business, we would be glad to discuss how we can work together.</p>
+                    <div class="flex flex-col md:flex-row gap-4 justify-center">
+                        <button onclick="router('contact')" class="px-8 py-4 bg-white text-brand-green font-bold rounded shadow hover:bg-gray-100 transition-colors">
+                            Contact Us – For FPOs
+                        </button>
+                        <button onclick="router('contact')" class="px-8 py-4 border-2 border-white text-white font-bold rounded hover:bg-white hover:text-brand-green transition-colors">
+                            Contact Us – For Businesses
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= PAGE: ABOUT US (FINAL DRAFT) ================= -->
+        <div id="page-about" class="page-view">
+            <!-- 1. Hero Section -->
+            <header class="w-full h-[60vh] flex items-center justify-center relative bg-brand-dark text-white">
+                 <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-30"></div>
+                 <div class="text-center px-6 max-w-4xl relative z-10">
+                    <h1 class="font-heading text-4xl md:text-6xl font-bold mb-6 shadow-black/50 drop-shadow-lg">About Thryve Green</h1>
+                    <p class="text-xl text-gray-100 mb-8 max-w-3xl mx-auto">We want to turn India’s waste into clean energy, useful materials, and better solutions that reduce pollution and support people.</p>
+                 </div>
+            </header>
+
+            <!-- 2. Our Story -->
+            <section class="py-20 bg-white">
+                <div class="container mx-auto px-6 max-w-4xl">
+                    <div class="text-center mb-10">
+                         <span class="text-brand-green font-bold tracking-widest uppercase text-sm mb-2 block">Our Origin</span>
+                         <h2 class="text-3xl font-heading font-bold text-gray-900">Why We Started Thryve Green</h2>
+                    </div>
+                    <div class="prose prose-lg mx-auto text-gray-700 leading-relaxed">
+                        <p>
+                            We started Thryve Green with a simple goal. Build something clean and practical that helps India reduce pollution without placing extra burden on people. Our first idea was to create products using bamboo. While researching that path, we realized how much agricultural waste India produces every year and how most of it ends up burned in the open.
+                        </p>
+                        <p>
+                            At the same time, industries continue to rely heavily on coal and firewood. Both problems meet at the same point.
+                        </p>
+                        <div class="my-8 pl-6 border-l-4 border-brand-green font-semibold text-gray-900">
+                            Too much waste.<br>
+                            High demand for energy.<br>
+                            And very few long-term solutions that connect the two.
+                        </div>
+                        <p>
+                            That is where we found opportunity. Even though biomass briquettes is a mature sector, India’s waste challenge is still massive. There is space for responsible companies to collect and convert this material instead of letting it burn. Starting here made sense. It is practical, proven, and builds the right foundation for our long-term vision.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Beliefs -->
+            <section class="py-20 bg-brand-cream">
+                <div class="container mx-auto px-6">
+                    <div class="flex flex-col md:flex-row items-center gap-12">
+                        <div class="md:w-1/2">
+                            <h2 class="text-3xl font-heading font-bold text-gray-900 mb-6">Our Belief and Commitment</h2>
+                            <p class="text-gray-700 mb-6">
+                                We believe sustainability should be simple. When solutions are simple, people use them. When they work on the ground, they last. Our focus is to create products that:
+                            </p>
+                            <ul class="space-y-4">
+                                <li class="flex items-center gap-3 bg-white p-3 rounded shadow-sm">
+                                    <div class="w-2 h-2 bg-brand-green rounded-full"></div> Reduce pollution
+                                </li>
+                                <li class="flex items-center gap-3 bg-white p-3 rounded shadow-sm">
+                                    <div class="w-2 h-2 bg-brand-green rounded-full"></div> Support farmers
+                                </li>
+                                <li class="flex items-center gap-3 bg-white p-3 rounded shadow-sm">
+                                    <div class="w-2 h-2 bg-brand-green rounded-full"></div> Help industries shift to cleaner fuel
+                                </li>
+                                <li class="flex items-center gap-3 bg-white p-3 rounded shadow-sm">
+                                    <div class="w-2 h-2 bg-brand-green rounded-full"></div> Make waste useful
+                                </li>
+                                <li class="flex items-center gap-3 bg-white p-3 rounded shadow-sm">
+                                    <div class="w-2 h-2 bg-brand-green rounded-full"></div> Prepare India for higher energy demand
+                                </li>
+                            </ul>
+                            <p class="mt-6 font-bold text-brand-green">We are not building a one-product company. We are building a platform to turn waste into value.</p>
+                        </div>
+                        <div class="md:w-1/2">
+                             <div class="rounded-2xl overflow-hidden shadow-2xl">
+                                <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=2026&auto=format&fit=crop" alt="Green Innovation" class="w-full h-auto">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. Vision -->
+            <section class="py-20 bg-brand-dark text-white text-center">
+                <div class="container mx-auto px-6 max-w-4xl">
+                    <i data-lucide="telescope" class="w-12 h-12 text-brand-light mx-auto mb-6"></i>
+                    <h2 class="text-3xl font-heading font-bold mb-6">Where We Are Going</h2>
+                    <p class="text-gray-300 text-lg leading-relaxed mb-6">
+                        Briquettes are our starting point. Over time, we want to explore more waste-based products that can replace fossil materials. This includes options like biomass-based fuels, biochar, bio-bitumen, and other clean alternatives that support industry and reduce environmental impact.
+                    </p>
+                    <p class="text-brand-light font-medium text-xl">
+                        Our mission is clear. Turn India’s waste into clean energy and useful materials in a way that is practical for both businesses and communities.
+                    </p>
+                </div>
+            </section>
+
+            <!-- 5. Team (Flip Cards) -->
+            <section class="py-20 bg-white">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl font-heading font-bold text-gray-900">Meet Our Core Team</h2>
+                        <p class="text-gray-600 mt-4">We are three founders who want to build meaningful solutions for India’s future.</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                        <!-- Card 1 -->
+                        <div class="flip-card group">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <!-- Placeholder Photo -->
+                                    <div class="w-32 h-32 bg-gray-100 rounded-full mb-6 flex items-center justify-center">
+                                        <i data-lucide="user" class="w-16 h-16 text-gray-300"></i>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-gray-900">Sai Mohit Raj Male</h3>
+                                    <p class="text-brand-green font-semibold">Co-founder</p>
+                                </div>
+                                <div class="flip-card-back">
+                                    <h3 class="text-xl font-bold mb-2">Sai Mohit Raj Male</h3>
+                                    <p class="text-sm opacity-90 leading-relaxed">
+                                        Manufacturing Engineer with experience in robotics, process improvement, and CAPEX projects.
+                                        <br><br>
+                                        Focused on building systems that scale and solutions that last.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="flip-card group">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="w-32 h-32 bg-gray-100 rounded-full mb-6 flex items-center justify-center">
+                                        <i data-lucide="user" class="w-16 h-16 text-gray-300"></i>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-gray-900">Suchit Raj Male</h3>
+                                    <p class="text-brand-green font-semibold">Co-founder</p>
+                                </div>
+                                <div class="flip-card-back">
+                                    <h3 class="text-xl font-bold mb-2">Suchit Raj Male</h3>
+                                    <p class="text-sm opacity-90 leading-relaxed">
+                                        Strong in operations and people management.
+                                        <br><br>
+                                        Focused on building stable, long-term processes and business relationships.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="flip-card group">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="w-32 h-32 bg-gray-100 rounded-full mb-6 flex items-center justify-center">
+                                        <i data-lucide="user" class="w-16 h-16 text-gray-300"></i>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-gray-900">Vamsi Krishna Kavati</h3>
+                                    <p class="text-brand-green font-semibold">Co-founder</p>
+                                </div>
+                                <div class="flip-card-back">
+                                    <h3 class="text-xl font-bold mb-2">Vamsi Krishna Kavati</h3>
+                                    <p class="text-sm opacity-90 leading-relaxed">
+                                        Engineer and problem solver with interest in sustainable product development and technical execution.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. What Drives Us -->
+            <section class="py-20 bg-brand-cream border-t border-gray-200">
+                <div class="container mx-auto px-6 max-w-4xl text-center">
+                    <h2 class="text-3xl font-heading font-bold text-gray-900 mb-8">Why This Work Matters to Us</h2>
+                    <p class="text-gray-700 text-lg mb-8 leading-relaxed">
+                        India is growing in population, energy demand, and data requirements. At the same time, waste generation is increasing every year. If we do not create systems to convert this waste into useful material, we will face larger environmental challenges in the future.
+                    </p>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="bg-white p-4 rounded shadow-sm border border-gray-100">
+                            <p class="font-bold text-brand-green">Be part of the solution</p>
+                        </div>
+                        <div class="bg-white p-4 rounded shadow-sm border border-gray-100">
+                            <p class="font-bold text-brand-green">Build something impactful</p>
+                        </div>
+                        <div class="bg-white p-4 rounded shadow-sm border border-gray-100">
+                            <p class="font-bold text-brand-green">Benefit everyone involved</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. CTA -->
+            <section class="py-20 bg-brand-green text-white text-center">
+                <div class="container mx-auto px-6 max-w-3xl">
+                    <h2 class="text-4xl font-heading font-bold mb-6">Join Us in Building Something Better</h2>
+                    <p class="text-xl opacity-90 mb-10">Whether you are a farmer, business, or partner, we invite you to be part of a cleaner and more sustainable future.</p>
+                    <button onclick="router('contact')" class="px-10 py-4 bg-white text-brand-green font-bold text-lg rounded shadow-lg hover:bg-gray-100 transition-all transform hover:scale-105">
+                        Contact Us
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= PAGE: CONTACT ================= -->
+        <div id="page-contact" class="page-view">
+            <section class="py-20 bg-white">
+                <div class="container mx-auto px-6 max-w-4xl">
+                    <div class="text-center mb-12">
+                        <h1 class="text-4xl font-heading font-bold text-gray-900 mb-4">Get In Touch</h1>
+                        <p class="text-gray-600">Whether you have biomass to sell or need fuel for your boilers, we are ready to partner.</p>
+                    </div>
+                    
+                    <form class="bg-brand-cream p-8 md:p-12 rounded-2xl shadow-card space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Name</label>
+                                <input type="text" class="w-full px-4 py-3 rounded border border-gray-300 focus:border-brand-green focus:ring-1 focus:ring-brand-green outline-none" placeholder="Your Name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Phone</label>
+                                <input type="tel" class="w-full px-4 py-3 rounded border border-gray-300 focus:border-brand-green focus:ring-1 focus:ring-brand-green outline-none" placeholder="+91 99999 99999">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Email</label>
+                            <input type="email" class="w-full px-4 py-3 rounded border border-gray-300 focus:border-brand-green focus:ring-1 focus:ring-brand-green outline-none" placeholder="you@company.com">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">I am interested in...</label>
+                            <select class="w-full px-4 py-3 rounded border border-gray-300 focus:border-brand-green focus:ring-1 focus:ring-brand-green outline-none bg-white">
+                                <option>Buying Briquettes (Industrial Fuel)</option>
+                                <option>Selling Crop Residue (Farmer/FPO)</option>
+                                <option>Machinery / Technology Partnership</option>
+                                <option>Other Inquiry</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Message</label>
+                            <textarea rows="4" class="w-full px-4 py-3 rounded border border-gray-300 focus:border-brand-green focus:ring-1 focus:ring-brand-green outline-none" placeholder="Tell us about your requirements..."></textarea>
+                        </div>
+
+                        <button type="button" class="w-full py-4 bg-brand-green text-white font-bold rounded shadow-lg hover:bg-brand-dark transition-colors text-lg">
+                            Send Message
+                        </button>
+                    </form>
+                    
+                    <div class="mt-12 grid md:grid-cols-3 gap-6 text-center text-gray-600">
+                        <div>
+                            <i data-lucide="phone" class="mx-auto mb-2 text-brand-green"></i>
+                            <p>+91 98765 43210</p>
+                        </div>
+                        <div>
+                            <i data-lucide="mail" class="mx-auto mb-2 text-brand-green"></i>
+                            <p>hello@thryvegreen.com</p>
+                        </div>
+                        <div>
+                            <i data-lucide="map-pin" class="mx-auto mb-2 text-brand-green"></i>
+                            <p>Hyderabad, Telangana</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 border-t border-gray-800">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left">
+                <!-- LOGO SECTION FOOTER -->
+                <div class="flex items-center justify-center md:justify-start cursor-pointer mb-2" onclick="router('home')">
+                    <img src="Thryve%20Green_Logo%202%20a_page-0001.jpg" alt="Thryve Green Logo" class="h-10 w-auto object-contain brightness-0 invert opacity-80">
+                </div>
+                <p class="text-gray-500 text-sm">Engineered for Earth. Powered by Waste.</p>
+            </div>
+            
+            <div class="flex gap-6 text-sm text-gray-400">
+                <button onclick="router('contact')" class="hover:text-white">Contact</button>
+                <a href="#" class="hover:text-white">Privacy Policy</a>
+            </div>
+
+            <div class="text-gray-600 text-sm">
+                &copy; 2025 Thryve Green.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Router Function
+        function router(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page-view');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show selected page
+            const target = document.getElementById('page-' + pageId);
+            if (target) {
+                target.classList.add('active');
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // Initialize Router based on URL hash or default to home
+        window.addEventListener('load', () => {
+            const hash = window.location.hash.substring(1); // remove #
+            if (hash && document.getElementById('page-' + hash)) {
+                router(hash);
+            } else {
+                router('home');
+            }
+        });
+
+        // Scroll Reveal Animation (Only active on Home page basically)
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            const elementVisible = 150;
+            revealElements.forEach((reveal) => {
+                const elementTop = reveal.getBoundingClientRect().top;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        // Trigger once on load
+        revealOnScroll();
+
+        // Navbar Transition
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-md');
+                navbar.classList.add('py-2');
+                navbar.classList.remove('py-4');
+            } else {
+                navbar.classList.remove('shadow-md');
+                navbar.classList.remove('py-2');
+                navbar.classList.add('py-4');
+            }
+        });
+    </script>
+</body>
+</html>
