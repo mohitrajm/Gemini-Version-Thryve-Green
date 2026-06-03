@@ -1454,14 +1454,21 @@
         lucide.createIcons();
 
         // Router Function
+    
         function router(pageId) {
-            // Hide all pages
+            // 1. Hide the mobile menu automatically on navigation
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+
+            // 2. Hide all pages
             const pages = document.querySelectorAll('.page-view');
             pages.forEach(page => {
                 page.classList.remove('active');
             });
 
-            // Show selected page
+            // 3. Show selected page
             const target = document.getElementById('page-' + pageId);
             if (target) {
                 target.classList.add('active');
