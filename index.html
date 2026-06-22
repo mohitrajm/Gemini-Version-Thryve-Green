@@ -1401,26 +1401,26 @@
                         <p class="text-gray-600">Whether you have biomass to sell or need fuel for your boilers, we are ready to partner.</p>
                     </div>
                     
-                    <form class="bg-brand-cream p-8 md:p-12 rounded-2xl shadow-card space-y-6">
+                    <form id="contact-form" class="bg-brand-cream p-8 md:p-12 rounded-2xl shadow-card space-y-6">
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-2">Name</label>
-                                <input type="text" class="w-full px-4 py-3 rounded border border-gray-300 focus:border-brand-green focus:ring-1 focus:ring-brand-green outline-none" placeholder="Your Name">
+                                <input type="text" id="contact-name" required class="w-full px-4 py-3 rounded border border-gray-300 focus:border-brand-green focus:ring-1 focus:ring-brand-green outline-none" placeholder="Your Name">
                             </div>
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-2">Phone</label>
-                                <input type="tel" class="w-full px-4 py-3 rounded border border-gray-300 focus:border-brand-green focus:ring-1 focus:ring-brand-green outline-none" placeholder="+91 99999 99999">
+                                <input type="tel" id="contact-phone" required class="w-full px-4 py-3 rounded border border-gray-300 focus:border-brand-green focus:ring-1 focus:ring-brand-green outline-none" placeholder="+91 99999 99999">
                             </div>
                         </div>
                         
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-2">Email</label>
-                            <input type="email" class="w-full px-4 py-3 rounded border border-gray-300 focus:border-brand-green focus:ring-1 focus:ring-brand-green outline-none" placeholder="you@company.com">
+                            <input type="email" id="contact-email" required class="w-full px-4 py-3 rounded border border-gray-300 focus:border-brand-green focus:ring-1 focus:ring-brand-green outline-none" placeholder="you@company.com">
                         </div>
 
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-2">I am interested in...</label>
-                            <select class="w-full px-4 py-3 rounded border border-gray-300 focus:border-brand-green focus:ring-1 focus:ring-brand-green outline-none bg-white">
+                            <select id="contact-interest" class="w-full px-4 py-3 rounded border border-gray-300 focus:border-brand-green focus:ring-1 focus:ring-brand-green outline-none bg-white">
                                 <option>Buying Briquettes (Industrial Fuel)</option>
                                 <option>Selling Crop Residue (Farmer/FPO)</option>
                                 <option>Machinery / Technology Partnership</option>
@@ -1430,10 +1430,26 @@
 
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-2">Message</label>
-                            <textarea rows="4" class="w-full px-4 py-3 rounded border border-gray-300 focus:border-brand-green focus:ring-1 focus:ring-brand-green outline-none" placeholder="Tell us about your requirements..."></textarea>
+                            <textarea id="contact-message" required rows="4" class="w-full px-4 py-3 rounded border border-gray-300 focus:border-brand-green focus:ring-1 focus:ring-brand-green outline-none" placeholder="Tell us about your requirements..."></textarea>
                         </div>
 
-                        <button type="button" class="w-full py-4 bg-brand-green text-white font-bold rounded shadow-lg hover:bg-brand-dark transition-colors text-lg">
+                        <!-- Success and Error alerts -->
+                        <div id="contact-success" class="hidden bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-xl flex items-center gap-3 animate-fade-in">
+                            <i data-lucide="check-circle" class="w-6 h-6 text-emerald-600"></i>
+                            <div>
+                                <p class="font-bold text-sm">Submission Successful!</p>
+                                <p class="text-xs text-emerald-700">Thank you. Your message has been sent to SharePoint Excel.</p>
+                            </div>
+                        </div>
+                        <div id="contact-error" class="hidden bg-rose-50 border border-rose-200 text-rose-800 p-4 rounded-xl flex items-center gap-3 animate-fade-in">
+                            <i data-lucide="alert-circle" class="w-6 h-6 text-rose-600"></i>
+                            <div>
+                                <p class="font-bold text-sm">Submission Failed</p>
+                                <p class="text-xs text-rose-700">Something went wrong. Please check your Webhook URL or try again later.</p>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full py-4 bg-brand-green text-white font-bold rounded shadow-lg hover:bg-brand-dark transition-colors text-lg">
                             Send Message
                         </button>
                     </form>
@@ -1547,6 +1563,83 @@
                 navbar.classList.add('py-4');
             }
         });
+
+        // Contact Form Submission Handler
+        const contactForm = document.getElementById('contact-form');
+        const contactSuccess = document.getElementById('contact-success');
+        const contactError = document.getElementById('contact-error');
+        
+        if (contactForm) {
+            contactForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Hide previous status messages
+                contactSuccess.classList.add('hidden');
+                contactError.classList.add('hidden');
+                
+                const submitBtn = contactForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.disabled = true;
+                
+                // Show a modern loading spinner
+                submitBtn.innerHTML = `
+                    <span class="flex items-center justify-center gap-2">
+                        <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Sending...
+                    </span>
+                `;
+
+                const formData = {
+                    name: document.getElementById('contact-name').value,
+                    phone: document.getElementById('contact-phone').value,
+                    email: document.getElementById('contact-email').value,
+                    interest: document.getElementById('contact-interest').value,
+                    message: document.getElementById('contact-message').value
+                };
+
+                // REPLACE THIS WITH YOUR POWER AUTOMATE WEBHOOK URL
+                const webhookUrl = 'YOUR_POWER_AUTOMATE_WEBHOOK_URL';
+
+                try {
+                    // Fallback simulation if webhookUrl is not set up
+                    if (webhookUrl === 'YOUR_POWER_AUTOMATE_WEBHOOK_URL') {
+                        console.warn('Power Automate Webhook URL is not configured. Simulating submission.');
+                        await new Promise(resolve => setTimeout(resolve, 1500));
+                        contactSuccess.classList.remove('hidden');
+                        contactForm.reset();
+                        return;
+                    }
+
+                    const response = await fetch(webhookUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    if (response.ok) {
+                        contactSuccess.classList.remove('hidden');
+                        contactForm.reset();
+                    } else {
+                        throw new Error('Server returned error status');
+                    }
+                } catch (error) {
+                    console.error('Error submitting contact form:', error);
+                    contactError.classList.remove('hidden');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                    // Re-render Lucide icons for the newly shown status messages
+                    if (window.lucide) {
+                        window.lucide.createIcons();
+                    }
+                }
+            });
+        }
     </script>
 </body>
 </html>
