@@ -126,7 +126,13 @@
             transform-style: preserve-3d;
         }
 
-        .flip-card:hover .flip-card-inner {
+        @media (hover: hover) {
+            .flip-card:hover .flip-card-inner {
+                transform: rotateY(180deg);
+            }
+        }
+
+        .flip-card.flipped .flip-card-inner {
             transform: rotateY(180deg);
         }
 
@@ -185,7 +191,7 @@
             </div>
 
             <!-- Mobile Menu Button -->
-            <button class="md:hidden text-gray-700" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+            <button id="mobile-menu-btn" class="md:hidden text-gray-700" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
                 <i data-lucide="menu" class="w-7 h-7"></i>
             </button>
         </div>
@@ -1293,7 +1299,7 @@
 
                     <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                         <!-- Card 1 -->
-                        <div class="flip-card group">
+                        <div class="flip-card group" onclick="this.classList.toggle('flipped')">
                             <div class="flip-card-inner">
                                 <div class="flip-card-front">
                                   <!-- Profile Photo -->
@@ -1315,7 +1321,7 @@
                         </div>
 
                         <!-- Card 2 -->
-                        <div class="flip-card group">
+                        <div class="flip-card group" onclick="this.classList.toggle('flipped')">
                             <div class="flip-card-inner">
                                 <div class="flip-card-front">
                                     
@@ -1337,7 +1343,7 @@
                         </div>
 
                         <!-- Card 3 -->
-                        <div class="flip-card group">
+                        <div class="flip-card group" onclick="this.classList.toggle('flipped')">
                             <div class="flip-card-inner">
                                 <div class="flip-card-front">
                         <!-- Profile Photo -->
@@ -1640,6 +1646,18 @@
                 }
             });
         }
+
+        // Collapse mobile menu when clicking outside of it
+        document.addEventListener('click', function(e) {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                    mobileMenu.classList.add('hidden');
+                }
+            }
+        });
     </script>
 </body>
 </html>
